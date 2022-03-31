@@ -8,7 +8,7 @@ const initialState = {
 
 export const getPosts = createAsyncThunk('posts/getPosts',
     async () => {
-       
+
         const response = await fetchPosts();
         console.log('async thunk', response)
         return response;
@@ -19,22 +19,24 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         fetch(state) {
-           return state;
+            return state;
         },
         create(state, action) {
-           return state;
+            return state;
         }
     },
     extraReducers: {
-        [getPosts.pending] : (state, action) =>  {
+        [getPosts.pending]: (state, action) => {
             console.log('inside post slice pending', state, action);
             state.isLoading = true;
         },
-        [getPosts.fulfilled] : (state, action) =>  {
+        [getPosts.fulfilled]: (state, action) => {
             console.log('inside post slice fullfilled', state, action);
             state.isLoading = false;
+            state.posts = action.payload;
+            console.log('iasdasd', state);
         },
-        [getPosts.reject] : (state, action) =>  {
+        [getPosts.reject]: (state, action) => {
             console.log('inside post slice reject', state, action);
             state.isLoading = false;
         }
@@ -42,5 +44,5 @@ const postSlice = createSlice({
 })
 
 export const { fetch, create } = postSlice.actions;
-export const selectPosts = (state) => state.posts;
+export const selectPosts = (state) => state.post.posts;
 export default postSlice.reducer; 
